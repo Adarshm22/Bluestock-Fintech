@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "consist of backend configuration",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon -r dotenv/config src/index.js"
   },
   "keywords": [
     "node",
@@ -12,5 +13,12 @@
     "mongoDb"
   ],
   "author": "bluestock fintech",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0",
+    "mongoose": "^8.9.5",
+    "nodemon": "^3.1.9"
+  }
 }
