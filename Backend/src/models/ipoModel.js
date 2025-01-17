@@ -1,7 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const ipoSchema = new mongoose.Schema({
- 
   companyLogoURL: {
     type: String,
     required: true, 
@@ -71,4 +70,4 @@ const ipoSchema = new mongoose.Schema({
 
 const ipoModel = mongoose.model('IPO', ipoSchema);
 
-module.exports = ipoModel;
+export default ipoModel;
