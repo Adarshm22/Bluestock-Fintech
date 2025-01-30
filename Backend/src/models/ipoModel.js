@@ -1,73 +1,99 @@
 import mongoose from 'mongoose';
 
-const ipoSchema = new mongoose.Schema({
+const IpoSchema = new mongoose.Schema({
   companyLogoURL: {
     type: String,
     required: true, 
   },
+
   companyName: {
     type: String,
-    required: true, 
+    trim:true,
+    lowercase:true,
+    required: true
   },
+
   priceBand: {
-    type: String,
+    type: Number,
     required: true, 
   },
+
   open: {
-    type: Date,
-    required: true, 
+    type: String,
+    default: "Not Issued",
+    
   },
+
   close: {
-    type: Date,
-    required: true, 
+    type: String,
+    default: "Not Issued",
   },
+
   issueSize: {
     type: String,
     required: true, 
   },
+
   issueType: {
     type: String,
+    enum:{
+      values:["Fixed Price", "Book Building"],
+      message:`{VALUE} is not Valid`
+    },
     required: true, 
   },
+
   listingDate: {
-    type: Date,
+    type: String,
     required: true, 
   },
+
   status: {
     type: String,
-    enum: ['Upcoming', 'Ongoing', 'Closed', 'Listed'], 
+    enum:{
+      values:["Upcoming", "Ongoing", "Closed", "Listed"],
+      message:`{VALUE} is not a valid status.Accepted values are: Upcoming, Ongoing, Closed, Listed.`
+    }, 
     required: true,
   },
+
   ipoPrice: {
     type: Number,
     required: true, 
   },
+
   listingPrice: {
     type: Number,
     required: true, 
   },
+
   listingGain: {
     type: Number, 
     required: true,
   },
+
   cmp: {
     type: Number, 
     required: true,
   },
+
   currentReturn: {
     type: Number, 
     required: true,
   },
-  rhpPdfLink: {
+
+  rhpPdfUrl: {
     type: String, 
     required: true,
   },
-  drhpPdfLink: {
+
+  drhpPdfUrl: {
     type: String, 
     required: true,
-  },
-});
+  }
 
-const ipoModel = mongoose.model('IPO', ipoSchema);
+},{timestamps:true});
 
-export default ipoModel;
+export const IPO = mongoose.model('IPO', IpoSchema);
+
+
