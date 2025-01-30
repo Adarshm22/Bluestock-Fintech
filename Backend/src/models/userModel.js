@@ -20,9 +20,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
-    minlength: 8, 
-    select: false, 
+    required: true
   },
 },{timestamps:true});
 
@@ -33,9 +31,12 @@ userSchema.pre("save",async function(next){
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function(password) {
-  return await bcrypt.compare(password, this.password)
-};
+userSchema.methods.isPasswordCorrect = async function(password){
+  console.log("Entered Password:", password);
+  console.log("Stored Hashed Password:", this.password);
+  const result = await bcrypt.compare(password, this.password)
+  return result
+}
 
 userSchema.methods.generateAccessToken = function(){
   return jwt.sign(
