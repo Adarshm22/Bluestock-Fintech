@@ -1,6 +1,9 @@
 import { IPO } from "../Models/ipoModel.js";
 import { AsyncHandeller } from "../Utils/AsyncHandeller.js";
-import { Upload_On_Cloudinary } from "../Utils/Cloudinary.js";
+import {
+  delete_from_Cloudinary,
+  Upload_On_Cloudinary,
+} from "../Utils/Cloudinary.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 
 // Todo: make the date into utc format to store in db;
@@ -20,6 +23,7 @@ const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
       });
     }
   }
+
   if (!["Upcoming", "Ongoing", "Closed", "Listed"].includes(ipoObj.status)) {
     return next({ message: "Invalid status value" });
   }
@@ -30,10 +34,12 @@ const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
     listingDate: ipoObj.listingDate,
   });
 
+
   if (existingIpo)
     return next({
       message: "An IPO for this company on this date already exists!",
     });
+
 
   const logoPath = req.files?.companyLogoURL[0]?.path;
   const RHP_Path = req.files?.rhpPdfUrl[0]?.path;
@@ -58,6 +64,7 @@ const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
   ipoObj.rhpPdfUrl = rhpPdfUrl;
   ipoObj.drhpPdfUrl = drhpPdfUrl;
 
+  
   const registeredIPO = await IPO.create(ipoObj);
   if (!registeredIPO)
     return next({ message: "IPO registration failed.Try again" });
@@ -67,5 +74,123 @@ const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
     .json(new ApiResponse(200, registeredIPO, "IPO registration successfull"));
 });
 
+const update_IpoData = AsyncHandeller(async (req, res, next) => {
+  const { Id } = req.params;
+  const newIpoData = req.body;
+  const fetchedIpo = await IPO.findById({ _id: Id });
 
-export { Register_NewIpo };
+  if (!fetchedIpo) {
+    return next({
+      message: "Ipo do not exist",
+    });
+  }
+
+  let updatedIpoData = {};
+  for (const key in newIpoData) {
+    if (newIpoData[key] !== fetchedIpo[key]) {
+      updatedIpoData[key] = newIpoData[key];
+    }
+  }
+
+  if (Object.keys(updatedIpoData).length === 0) {
+    return next({
+      message: "No Update Found",
+    });
+  }
+
+  const Modified = await IPO.findByIdAndUpdate(
+    { _id: Id },
+    { $set: updatedIpoData },
+    { new: true, runValidators: true }
+  );
+
+  if (!Modified) {
+    return next({
+      message: "Data updation Unseccessful ! try again",
+    });
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, Modified, "Data Modification Successfull"));
+});
+
+const delete_Ipo = AsyncHandeller(async (req, res, next) => {
+  const { Id } = req.params;
+
+  const fetchedIpo = await IPO.findById({ _id: Id });
+
+  if (!fetchedIpo) {
+    return next({
+      message: "Ipo no found",
+    });
+  }
+
+  await delete_from_Cloudinary(fetchedIpo.companyLogoURL);
+  await delete_from_Cloudinary(fetchedIpo.rhpPdfUrl);
+  await delete_from_Cloudinary(fetchedIpo.drhpPdfUrl);
+
+  const deletedIpoData = await IPO.findByIdAndDelete({ _id: Id });
+
+  if (!deletedIpoData) {
+    return next({
+      message: "Ipo Deletion failed ! try again",
+    });
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, deletedIpoData, "Ipo deletion successful"));
+});
+
+const change_CompanyLogo = AsyncHandeller(async (req, res, next) => {
+  const { Id } = req.params;
+  const logoPath = req.file?.path;
+  
+const ipo = await IPO.findById({_id : Id });
+  
+if(!ipo){
+  return next({
+    message:"ipo not found"
+  })
+}
+  if (logoPath) {
+    await delete_from_Cloudinary(ipo.companyLogoURL);
+  }
+
+  const newUrl = await Upload_On_Cloudinary(logoPath);
+
+  if (!newUrl) {
+    console.log("no image url received form cloudinary");
+  }
+
+  const IpoWithUpdatedImage = await IPO.findByIdAndUpdate(
+    { _id: Id },
+    { $set: { companyLogoURL: newUrl } },
+    { new: true }
+  );
+
+  if (!IpoWithUpdatedImage) {
+    return next({
+      message: "Logo updation failed",
+    });
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, IpoWithUpdatedImage, "Logo updation successfull")
+    );
+});
+
+const fetchIpo = AsyncHandeller(async (req, res, next)=>{
+  const Ipos = await IPO.find();
+  if(!Ipos){
+    return next({
+      message:"Internal Error Occured ! try afterSometime"
+    })
+  }
+  return res.status(200).json(new ApiResponse(200, Ipos, "Fetching all IPO successfull"));
+})
+
+export { Register_NewIpo, update_IpoData, delete_Ipo, change_CompanyLogo, fetchIpo };
