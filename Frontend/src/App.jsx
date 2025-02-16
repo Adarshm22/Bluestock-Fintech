@@ -1,13 +1,20 @@
-import { useState } from 'react'
-import './App.css'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path='/'  />
+    </>
+  )
+)
+
 
 function App() {
-
   return (
     <>
-      <h1 >hello world</h1>
+      <RouterProvider router={router} />
     </>
   )
 }
 
-export default App
+export default App;
