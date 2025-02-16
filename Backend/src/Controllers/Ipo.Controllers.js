@@ -126,9 +126,9 @@ const delete_Ipo = AsyncHandeller(async (req, res, next) => {
     });
   }
 
-  await delete_from_Cloudinary(fetchedIpo.companyLogoURL);
-  await delete_from_Cloudinary(fetchedIpo.rhpPdfUrl);
-  await delete_from_Cloudinary(fetchedIpo.drhpPdfUrl);
+  // await delete_from_Cloudinary(fetchedIpo.companyLogoURL);
+  // await delete_from_Cloudinary(fetchedIpo.rhpPdfUrl);
+  // await delete_from_Cloudinary(fetchedIpo.drhpPdfUrl);
 
   const deletedIpoData = await IPO.findByIdAndDelete({ _id: Id });
 
