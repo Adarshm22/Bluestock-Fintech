@@ -22,6 +22,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+
+  agreeTerms :{
+    type:Boolean,
+    requried: true
+  }
+
+
 },{timestamps:true});
 
 userSchema.pre("save",async function(next){

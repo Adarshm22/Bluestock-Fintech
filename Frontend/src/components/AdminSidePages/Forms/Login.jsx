@@ -2,10 +2,13 @@ import { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import logo from "../../../assets/logo.png"
 import { Link } from "react-router";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,9 +18,31 @@ const LoginForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    try {
+      const response = await fetch("http://localhost:4000/api/v1/users/login",{
+        method:"POST",
+        headers:{
+          'Content-Type':"Application/json"
+        },
+        body:JSON.stringify(formData)
+      });
+
+      const data = await response.json()
+      if(response.ok){
+        toast.success(data.message);
+        setFormData({
+          email: "", 
+          password: ""
+        })
+        navigate("/dashboard")
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.log("Error in Login Process", error)
+    }
   };
 
   return (

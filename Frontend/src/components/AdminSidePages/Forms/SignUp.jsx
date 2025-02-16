@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import logo from "../../../assets/logo.png"
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router";
-
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const SignUpForm = () => {
-  // Minimal state for demonstration; adjust as needed
+ 
   const [formData, setFormData] = useState({ 
     fullName: "", 
     email: "", 
@@ -16,6 +17,7 @@ const SignUpForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate()
 
 
   const handleChange = (e) => {
@@ -26,10 +28,34 @@ const SignUpForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle your signup logic here
+    try {
+      const response = await fetch("http://localhost:4000/api/v1/users/registration",{
+        method:"POST",
+        headers:{
+          'Content-Type':"Application/json"
+        },
+        body:JSON.stringify(formData)
+      });
+
+      const data = await response.json()
+      if(response.ok){
+        toast.success(data.message);
+        setFormData({
+          fullName: "", 
+          email: "", 
+          password: "", 
+          confirmPassword: "", 
+          agreeTerms: false 
+        })
+        navigate("/dashboard")
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.log("Error in SignUp Process", error)
+    }
   };
 
   return (

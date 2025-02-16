@@ -3,9 +3,9 @@ import { AsyncHandeller } from "../Utils/AsyncHandeller.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 
 const Registration = AsyncHandeller(async (req, res, next) => {
-  const { fullName, email, password } = req.body;
+  const { fullName, email, password, confirmPassword, agreeTerms } = req.body;
 
-  if ([fullName, email, password].some((Credential) => Credential === "")) {
+  if ([fullName, email, password, confirmPassword ].some((Credential) => Credential === "")) {
     return next({
       status: 400,
       message: "All Fields are Required",
@@ -21,10 +21,24 @@ const Registration = AsyncHandeller(async (req, res, next) => {
     });
   }
 
+  if(password !== confirmPassword){
+    return next({
+      status: 400,
+      message:"password and confirmPassword Mismatched"
+    })
+  }
+
+  if(agreeTerms === "" || agreeTerms === null || agreeTerms === false){
+    return next({
+      status:400,
+      message:"Agree the Terms To proceed Further"
+    })
+  }
   const createdUser = await User.create({
     fullName,
     email,
     password,
+    agreeTerms
   });
 
   if (!createdUser) {
