@@ -14,6 +14,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Container />} />
       <Route path='/signUp' element={<SignUpForm />} />
       <Route path='/signIn' element={<LoginForm />} />
+      <Route path='/forgotPassword' element={<ForgotPassword/>} />
 
       <Route path='/dashboard' element={<DashboardLayout />}>
         <Route path='/dashboard/' element={<QuickLinks />} />

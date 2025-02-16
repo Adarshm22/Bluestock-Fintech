@@ -55,7 +55,7 @@ const LoginForm = () => {
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </span>
           </div>
-          <Link href="#" className="text-xs text-blue-500 float-right mt-2">Forgot Password?</Link>
+          <Link to="/forgotPassword" className="text-xs text-blue-500 float-right mt-2">Forgot Password?</Link>
         </div>
         <div className="mb-4 flex items-center">
           <input
