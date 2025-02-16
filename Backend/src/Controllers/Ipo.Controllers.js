@@ -1,4 +1,4 @@
-import { IPO } from "../Models/ipoModel.js";
+import { IPO } from "../models/ipoModel.js";
 import { AsyncHandeller } from "../Utils/AsyncHandeller.js";
 import {
   delete_from_Cloudinary,
@@ -9,7 +9,7 @@ import { ApiResponse } from "../Utils/ApiResponse.js";
 // Todo: make the date into utc format to store in db;
 const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
   const ipoObj = req.body;
-
+  
   if (ipoObj) {
     const emptyFields = Object.entries(ipoObj)
       .filter(
