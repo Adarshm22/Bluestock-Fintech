@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
 
   agreeTerms :{
     type:Boolean,
-    requried: true
+    required: true
   }
 
 
@@ -58,5 +58,5 @@ userSchema.methods.generateAccessToken = function(){
 
 
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.models.User || mongoose.model("User", userSchema);
 

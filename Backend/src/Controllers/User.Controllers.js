@@ -1,4 +1,4 @@
-import { User } from "../Models/userModel.js";
+import { User } from "../models/userModel.js";
 import { AsyncHandeller } from "../Utils/AsyncHandeller.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 
@@ -90,4 +90,13 @@ const Login = AsyncHandeller(async (req, res, next) => {
     .json(new ApiResponse(200, { AccessToken }, "Login Successfull"));
 });
 
-export { Registration, Login };
+const getUser = AsyncHandeller(async (req, res, next)=>{
+  const {_id} = req.userData;
+
+  const data = await User.findOne({_id}).select("-password")
+
+  return res.status(200).json(new ApiResponse(200, data, "user data fetched successfully"))
+});
+
+
+export { Registration, Login, getUser};
