@@ -4,8 +4,10 @@ import logo from "../../../assets/logo.png"
 import { Link } from "react-router";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../../../context/authContext";
 
 const LoginForm = () => {
+  const {SetTokenInLocalStorage} = useAuthContext();
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
@@ -29,9 +31,10 @@ const LoginForm = () => {
         body:JSON.stringify(formData)
       });
 
-      const data = await response.json()
+      const responseData = await response.json()
       if(response.ok){
-        toast.success(data.message);
+        SetTokenInLocalStorage(responseData.data.AccessToken)
+        toast.success(responseData.message);
         setFormData({
           email: "", 
           password: ""

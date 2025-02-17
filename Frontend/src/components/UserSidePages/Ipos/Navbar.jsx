@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import logo_min from "../../../assets/logo_min.png";
 import { Link } from "react-router-dom";
 
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 

@@ -15,6 +15,7 @@ import {
   FiUsers,        // Accounts
   FiHelpCircle,   // Help
 } from "react-icons/fi";
+import { useAuthContext } from "../../context/authContext";
 
 const navLinkClasses = ({ isActive }) =>
   isActive
@@ -23,6 +24,8 @@ const navLinkClasses = ({ isActive }) =>
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const {userData} = useAuthContext();
+
 
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -211,7 +214,7 @@ const DashboardLayout = () => {
               <FiBell size={20} />
             </button>
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-700">Hi, Vishal</span>
+              <span className="text-sm text-gray-700">Hi, {userData.fullName}</span>
               <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
                 <FiUser className="text-white" />
               </div>

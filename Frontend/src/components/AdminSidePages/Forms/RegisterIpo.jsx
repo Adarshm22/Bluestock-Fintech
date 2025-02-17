@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import toast from 'react-hot-toast'
+import {useAuthContext} from '../../../context/authContext'
 
 const IpoForm = () => {
+  const {Token} = useAuthContext();
   const [IpoData, setIpoData] = useState({
     companyLogoURL: null,
     companyName: "",
@@ -67,16 +69,20 @@ const IpoForm = () => {
         formdata.append(key, IpoData[key])
        }
     }
+    const toastId = toast.loading("Ipo Registration under Process")
     try {
         const response = await fetch("http://localhost:4000/api/v1/ipos/registerIpo",{
             method:"POST",
+            headers:{
+              "Authorization":Token
+            },
             body:formdata 
         });
 
         const data = await response.json()
        
         if(response.ok){
-            toast.success(data.message)
+            toast.success(data.message, {id: toastId})
             setIpoData({
                 companyLogoURL: null,
                 companyName: "",
@@ -96,7 +102,7 @@ const IpoForm = () => {
                 drhpPdfUrl: null,
             })
         }else{
-            toast.error(data.message)
+            toast.error(data.message, {id: toastId})
         }
 
     } catch (error) {

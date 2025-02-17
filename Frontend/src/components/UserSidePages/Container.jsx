@@ -1,9 +1,10 @@
 import Navbar from "./Ipos/Navbar";
 import FAQ from "./Ipos/FAQ";
 import IPOCard from "./Ipos/IPOCard";
-import { Link } from "react-router";
 
 function Container() {
+
+
   const ipoData = [
    
     {
