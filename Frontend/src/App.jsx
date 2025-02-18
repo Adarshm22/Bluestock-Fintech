@@ -7,6 +7,7 @@ import UpcomingIpoDashboard from './components/AdminSidePages/IpoPages/UpcomingI
 import QuickLinks from './components/AdminSidePages/IpoPages/Dashboard';
 import Container from './components/UserSidePages/Container';
 import DashboardLayout from './components/AdminSidePages/DashboardContainer';
+import UpdateIPO from './components/AdminSidePages/IpoPages/UpdateIpo';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
         <Route path='/dashboard/' element={<QuickLinks />} />
         <Route path='/dashboard/manage-ipo' element={<UpcomingIpoDashboard />} />
         <Route path='/dashboard/manage-ipo/register-ipo' element={<IpoForm />} />
+        <Route path='/dashboard/manage-ipo/:id/update-ipo' element={<UpdateIPO/>} />
       </Route>
 
     </>
