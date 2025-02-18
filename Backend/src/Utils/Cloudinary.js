@@ -15,6 +15,7 @@ export const Upload_On_Cloudinary = async (localfilepath) => {
 
     const response = await cloudinary.uploader.upload(localfilepath, {
       resource_type: "auto",
+      access_mode:"public"
     });
     fs.unlinkSync(localfilepath);
     return response.url;
