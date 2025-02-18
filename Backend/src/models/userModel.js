@@ -22,6 +22,13 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+
+  agreeTerms :{
+    type:Boolean,
+    required: true
+  }
+
+
 },{timestamps:true});
 
 userSchema.pre("save",async function(next){
@@ -51,5 +58,5 @@ userSchema.methods.generateAccessToken = function(){
 
 
 
-export const User = mongoose.model('User', userSchema);
+export const User = mongoose.models.User || mongoose.model("User", userSchema);
 
