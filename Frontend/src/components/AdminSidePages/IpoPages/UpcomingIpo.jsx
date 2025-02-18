@@ -1,14 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTrash, FaEye } from "react-icons/fa";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useIpoContextProvider } from "../../../context/ipoContext";
+import ViewIpoData from "../viewIpoData";
 
 const UpcomingIpoDashboard = () => {
-  const { fetchIpos, IpoList } = useIpoContextProvider();
+  const { fetchIpos, DisplayedIpoList, deleteIpo, filterIpoForViewing } = useIpoContextProvider();
+  const [showDeleteBox, setshowDeleteBox] = useState(false)
+  const [complaintId, setcomplaintId] = useState(null)
+  const [showIpoDatabox , setshowIpoDatabox] = useState(false)
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     fetchIpos();
   }, []);
+
+  const onClose = ()=>{
+    setshowIpoDatabox(false)
+  }
 
   // Helper function for dynamic status styling
   const getStatusClass = (status) => {
@@ -32,7 +42,6 @@ const UpcomingIpoDashboard = () => {
           Upcoming IPO | Dashboard
         </h1>
         <div className="flex items-center gap-4">
-          <span className="text-gray-600">Hi, Vishal</span>
           <Link to="/dashboard/manage-ipo/register-ipo">
             <button
               type="button"
@@ -65,8 +74,8 @@ const UpcomingIpoDashboard = () => {
 
           {/* Table Body */}
           <tbody>
-            {IpoList && IpoList?.length > 0 ? (
-              IpoList.map((ipo, index) => (
+            {DisplayedIpoList && DisplayedIpoList?.length > 0 ? (
+              DisplayedIpoList.map((ipo, index) => (
                 <tr key={index} className="border-b border-gray-200">
                   <td className="px-4 py-3">{ipo.companyName}</td>
                   <td className="px-4 py-3">{ipo.priceBand}</td>
@@ -81,15 +90,27 @@ const UpcomingIpoDashboard = () => {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <button className="bg-violet-500 text-white px-3 py-1 rounded-md hover:bg-violet-600 transition">
+                    <button
+                    onClick={()=> navigate(`/dashboard/manage-ipo/${ipo._id}/update-ipo`)}
+                    className="bg-violet-500 hover:cursor-pointer text-white px-3 py-1 rounded-md hover:bg-violet-600 transition">
                       Update
                     </button>
                   </td>
                   <td className="px-4 py-3">
-                    <button className="text-red-500 hover:text-red-600 mr-3">
+                    <button
+                      onClick={() => {
+                        setshowDeleteBox(true)
+                        setcomplaintId(ipo._id)
+                      }}
+                      className="text-red-500 hover:text-red-600 mr-3 hover:cursor-pointer">
                       <FaTrash />
                     </button>
-                    <button className="text-orange-500 hover:text-orange-600">
+                    <button 
+                    onClick={()=>{
+                      setshowIpoDatabox(true)
+                      filterIpoForViewing(ipo._id)
+                    }}
+                    className="text-orange-500 hover:text-orange-600 hover:cursor-pointer">
                       <FaEye />
                     </button>
                   </td>
@@ -105,6 +126,33 @@ const UpcomingIpoDashboard = () => {
           </tbody>
         </table>
       </div>
+
+      <div className={`${showDeleteBox ? "fixed inset-0 flex justify-center items-center bg-gray-100/20 backdrop-blur-sm z-50 " : "hidden"}`}>
+        <div className="bg-white p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg shadow-xl max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg w-full mx-4 sm:mx-8 md:mx-12 text-center">
+          <h2 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-blue-800 mb-3 sm:mb-4">
+            Are you sure you want to delete this IPO?
+          </h2>
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+            <button
+              onClick={() => {
+                deleteIpo(complaintId);
+                setshowDeleteBox(false);
+              }}
+              className="bg-red-500 text-white py-1.5 px-4 sm:py-2 sm:px-6 rounded-md hover:bg-red-600 transition-all text-sm sm:text-base"
+            >
+              Yes, Delete
+            </button>
+            <button
+              onClick={() => setshowDeleteBox(false)}
+              className="bg-gray-500 text-white py-1.5 px-4 sm:py-2 sm:px-6 rounded-md hover:bg-gray-600 transition-all text-sm sm:text-base"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
+     { showIpoDatabox &&  <ViewIpoData onClose={onClose}/>}
 
       {/* Pagination */}
       <div className="flex items-center justify-center gap-2 mt-4">
@@ -125,6 +173,8 @@ const UpcomingIpoDashboard = () => {
         </button>
       </div>
     </div>
+
+
   );
 };
 
