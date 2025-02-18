@@ -4,11 +4,11 @@ import { useEffect } from "react";
 const context = createContext();
 
 export const AuthContextProvider = ({ children }) => {
-    
+
     const [AccessToken, setAccessToken] = useState(JSON.parse(localStorage.getItem("AccessToken")) || null);
     const [userData, setuserData] = useState({});
     const Token = `Bearer ${AccessToken}`;
- 
+
     //fetch loged in user data
     const fetchUserData = async () => {
         try {
@@ -34,11 +34,13 @@ export const AuthContextProvider = ({ children }) => {
 
     // store token in local storage
     const SetTokenInLocalStorage = (Token) => {
-        localStorage.setItem("AccessToken", JSON.stringify(Token))
-        setAccessToken(Token)
+        if (Token) {
+            localStorage.setItem("AccessToken", JSON.stringify(Token))
+            setAccessToken(Token)
+        }
     };
 
-    const Logout= () =>{
+    const Logout = () => {
         localStorage.removeItem("AccessToken")
         setAccessToken(null)
     }
@@ -50,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
 
 
     return (
-        <context.Provider value={{ SetTokenInLocalStorage , userData, Logout, Token, AccessToken, setuserData}}>
+        <context.Provider value={{ SetTokenInLocalStorage, userData, Logout, Token, AccessToken, setuserData }}>
             {children}
         </context.Provider>
     )
