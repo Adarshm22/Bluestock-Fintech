@@ -32,6 +32,7 @@ const LoginForm = () => {
       });
 
       const responseData = await response.json()
+    
       if(response.ok){
         SetTokenInLocalStorage(responseData.data.AccessToken)
         toast.success(responseData.message);
@@ -41,7 +42,11 @@ const LoginForm = () => {
         })
         navigate("/dashboard")
       }else{
-        toast.error(data.message)
+        toast.error(responseData.message)
+        setFormData({
+          email:"",
+          password:""
+        })
       }
     } catch (error) {
       console.log("Error in Login Process", error)

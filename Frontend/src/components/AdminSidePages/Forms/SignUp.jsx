@@ -4,9 +4,10 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { useAuthContext } from "../../../context/authContext";
 
 const SignUpForm = () => {
- 
+  const {SetTokenInLocalStorage} = useAuthContext()
   const [formData, setFormData] = useState({ 
     fullName: "", 
     email: "", 
@@ -39,9 +40,10 @@ const SignUpForm = () => {
         body:JSON.stringify(formData)
       });
 
-      const data = await response.json()
+      const Responsedata = await response.json()
       if(response.ok){
-        toast.success(data.message);
+        // SetTokenInLocalStorage(Responsedata.data.AccessToken)
+        toast.success(Responsedata.message);
         setFormData({
           fullName: "", 
           email: "", 
@@ -49,9 +51,10 @@ const SignUpForm = () => {
           confirmPassword: "", 
           agreeTerms: false 
         })
-        navigate("/dashboard")
+        navigate("/signIn")
+
       }else{
-        toast.error(data.message)
+        toast.error(Responsedata.message)
       }
     } catch (error) {
       console.log("Error in SignUp Process", error)

@@ -49,12 +49,12 @@ const Navbar = () => {
       {menuOpen && (
         <nav className="bg-white shadow-md py-3 lg:hidden">
           <div className="container mx-auto flex flex-col space-y-3 text-gray-700 text-sm">
-            <Link  className="hover:text-blue-500">PRODUCTS</Link>
-            <Link  className="hover:text-blue-500">PRICING</Link>
-            <Link  className="hover:text-blue-500">COMMUNITY</Link>
-            <Link  className="hover:text-blue-500">MEDIA</Link>
-            <Link  className="hover:text-blue-500">SUPPORT</Link>
-            <Link  className="hover:text-blue-500">Sign In</Link>
+            <Link  className="hover:text-blue-500 hover:cursor-pointer">PRODUCTS</Link>
+            <Link  className="hover:text-blue-500 hover:cursor-pointer">PRICING</Link>
+            <Link  className="hover:text-blue-500 hover:cursor-pointer">COMMUNITY</Link>
+            <Link  className="hover:text-blue-500 hover:cursor-pointer">MEDIA</Link>
+            <Link  className="hover:text-blue-500 hover:cursor-pointer">SUPPORT</Link>
+            <Link to={"/signIn"}  className="hover:text-blue-500  hover:cursor-pointer">Sign In</Link>
           
             <Link to="/signUp" className="px-3 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-center">Sign Up Now</Link>
           </div>

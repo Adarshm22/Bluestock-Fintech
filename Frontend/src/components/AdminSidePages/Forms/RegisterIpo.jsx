@@ -167,7 +167,7 @@ const IpoForm = () => {
                   src={
                     IpoData.companyLogoURL
                       ? URL.createObjectURL(IpoData.companyLogoURL)
-                      : "https://tse1.mm.bing.net/th?id=OIP.WKaWZhi1msRjSsFFZEkEiwHaEu&pid=Api&P=0&h=180"
+                      : "https://tse3.mm.bing.net/th?id=OIP.v6whqX6ijqrdaGRsvXQzHAHaEK&pid=Api&P=0&h=180"
                   }
                   alt="Logo"
                   className="object-contain w-full h-full"

@@ -5,11 +5,11 @@ import { useIpoContextProvider } from "../../context/ipoContext";
 import { useEffect } from "react";
 
 function Container() {
-const {IpoList, fetchIpos} = useIpoContextProvider()
+  const { DisplayedIpoList, fetchIpos } = useIpoContextProvider()
 
-useEffect(()=>{
-  fetchIpos()
-},[]);
+  useEffect(() => {
+    fetchIpos()
+  }, []);
   return (
     <>
       <div>
@@ -24,8 +24,8 @@ useEffect(()=>{
             dynamically for accuracy.
           </p>
           <div className="flex justify-around flex-wrap mx-auto gap-4 ">
-            {IpoList &&
-              IpoList.map((ipo, index) => <IPOCard key={index} ipo={ipo} />)}
+            {DisplayedIpoList &&
+              DisplayedIpoList.map((ipo, index) => <IPOCard key={index} ipo={ipo} />)}
           </div>
         </div>
         <FAQ />
