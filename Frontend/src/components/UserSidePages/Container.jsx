@@ -1,75 +1,15 @@
 import Navbar from "./Ipos/Navbar";
 import FAQ from "./Ipos/FAQ";
 import IPOCard from "./Ipos/IPOCard";
+import { useIpoContextProvider } from "../../context/ipoContext";
+import { useEffect } from "react";
 
 function Container() {
+const {IpoList, fetchIpos} = useIpoContextProvider()
 
-
-  const ipoData = [
-   
-    {
-      logo: "/path-to-logo/nova.png",
-      name: "Nova Agritech Ltd.",
-      priceBand: "25 - 45",
-      open: "2024-08-23",
-      close: "2024-08-24",
-      issueSize: "18.43 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-08-30",
-    },
-    {
-      logo: "/path-to-logo/epack.png",
-      name: "EPACK Durable Ltd.",
-      priceBand: "28 - 32",
-      open: "2024-07-19",
-      close: "2024-07-21",
-      issueSize: "50.00 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-07-29",
-    },
-    {
-      logo: "/path-to-logo/epack.png",
-      name: "EPACK Durable Ltd.",
-      priceBand: "28 - 32",
-      open: "2024-07-19",
-      close: "2024-07-21",
-      issueSize: "50.00 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-07-29",
-    },
-    {
-      logo: "/path-to-logo/epack.png",
-      name: "EPACK Durable Ltd.",
-      priceBand: "28 - 32",
-      open: "2024-07-19",
-      close: "2024-07-21",
-      issueSize: "50.00 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-07-29",
-    },
-    {
-      logo: "/path-to-logo/epack.png",
-      name: "EPACK Durable Ltd.",
-      priceBand: "28 - 32",
-      open: "2024-07-19",
-      close: "2024-07-21",
-      issueSize: "50.00 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-07-29",
-    },
-    {
-      logo: "/path-to-logo/epack.png",
-      name: "EPACK Durable Ltd.",
-      priceBand: "28 - 32",
-      open: "2024-07-19",
-      close: "2024-07-21",
-      issueSize: "50.00 Cr.",
-      issueType: "Book Built",
-      listingDate: "2024-07-29",
-    },
-    // Add more objects as needed
-  ];
-
+useEffect(()=>{
+  fetchIpos()
+},[]);
   return (
     <>
       <div>
@@ -84,8 +24,8 @@ function Container() {
             dynamically for accuracy.
           </p>
           <div className="flex justify-around flex-wrap mx-auto gap-4 ">
-            {ipoData &&
-              ipoData.map((ipo, index) => <IPOCard key={index} ipo={ipo} />)}
+            {IpoList &&
+              IpoList.map((ipo, index) => <IPOCard key={index} ipo={ipo} />)}
           </div>
         </div>
         <FAQ />

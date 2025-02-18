@@ -1,11 +1,29 @@
-import React from "react";
-import {
-  FaTrash, // npm install react-icons
-  FaEye,
-} from "react-icons/fa";
+import React, { useEffect } from "react";
+import { FaTrash, FaEye } from "react-icons/fa";
 import { Link } from "react-router";
+import { useIpoContextProvider } from "../../../context/ipoContext";
 
 const UpcomingIpoDashboard = () => {
+  const { fetchIpos, IpoList } = useIpoContextProvider();
+
+  useEffect(() => {
+    fetchIpos();
+  }, []);
+
+  // Helper function for dynamic status styling
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "Ongoing":
+        return "bg-green-100 text-green-700";
+      case "Comming":
+        return "bg-orange-100 text-orange-600";
+      case "New Listed":
+        return "bg-pink-100 text-pink-600";
+      default:
+        return "bg-gray-100 text-gray-600";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white p-4">
       {/* Top Bar */}
@@ -15,12 +33,14 @@ const UpcomingIpoDashboard = () => {
         </h1>
         <div className="flex items-center gap-4">
           <span className="text-gray-600">Hi, Vishal</span>
-          <Link to="/dashboard/manage-ipo/register-ipo"><button
-            type="button"
-            className="border border-[#4f80e1] text-[#4f80e1] px-4 py-2 rounded-md hover:bg-[#4f80e1] hover:text-white transition"
-          >
-            Register IPO
-          </button></Link>
+          <Link to="/dashboard/manage-ipo/register-ipo">
+            <button
+              type="button"
+              className="border border-[#4f80e1] text-[#4f80e1] px-4 py-2 rounded-md hover:bg-[#4f80e1] hover:text-white transition"
+            >
+              Register IPO
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -45,131 +65,49 @@ const UpcomingIpoDashboard = () => {
 
           {/* Table Body */}
           <tbody>
-            {/* Row 1 */}
-            <tr className="border-b border-gray-200">
-              <td className="px-4 py-3">Adani Power</td>
-              <td className="px-4 py-3">₹129 - 136</td>
-              <td className="px-4 py-3">2024-06-03</td>
-              <td className="px-4 py-3">2024-06-05</td>
-              <td className="px-4 py-3">1301.5 Cr</td>
-              <td className="px-4 py-3">Book Built</td>
-              <td className="px-4 py-3">2024-06-10</td>
-              <td className="px-4 py-3">
-                {/* Ongoing (Green) */}
-                <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-medium">
-                  Ongoing
-                </span>
-              </td>
-              <td className="px-4 py-3">
-                {/* Update button (blue/purple) */}
-                <button className="bg-violet-500 text-white px-3 py-1 rounded-md hover:bg-violet-600 transition">
-                  Update
-                </button>
-              </td>
-              <td className="px-4 py-3">
-                {/* Delete & View icons */}
-                <button className="text-red-500 hover:text-red-600 mr-3">
-                  <FaTrash />
-                </button>
-                <button className="text-orange-500 hover:text-orange-600">
-                  <FaEye />
-                </button>
-              </td>
-            </tr>
-
-            {/* Row 2 */}
-            <tr className="border-b border-gray-200">
-              <td className="px-4 py-3">VBL LTD</td>
-              <td className="px-4 py-3">₹129 - 136</td>
-              <td className="px-4 py-3">2024-06-03</td>
-              <td className="px-4 py-3">2024-06-05</td>
-              <td className="px-4 py-3">1301.5 Cr</td>
-              <td className="px-4 py-3">Book Built</td>
-              <td className="px-4 py-3">2024-06-10</td>
-              <td className="px-4 py-3">
-                {/* Comming (Orange) */}
-                <span className="bg-orange-100 text-orange-600 px-2 py-1 rounded-full text-xs font-medium">
-                  Comming
-                </span>
-              </td>
-              <td className="px-4 py-3">
-                <button className="bg-[#4f80e1] text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
-                  Update
-                </button>
-              </td>
-              <td className="px-4 py-3">
-                <button className="text-red-500 hover:text-red-600 mr-3">
-                  <FaTrash />
-                </button>
-                <button className="text-orange-500 hover:text-orange-600">
-                  <FaEye />
-                </button>
-              </td>
-            </tr>
-
-            {/* Row 3 */}
-            <tr className="border-b border-gray-200">
-              <td className="px-4 py-3">Tata Motor</td>
-              <td className="px-4 py-3">₹129 - 136</td>
-              <td className="px-4 py-3">2024-06-03</td>
-              <td className="px-4 py-3">2024-06-05</td>
-              <td className="px-4 py-3">1301.5 Cr</td>
-              <td className="px-4 py-3">Book Built</td>
-              <td className="px-4 py-3">2024-06-10</td>
-              <td className="px-4 py-3">
-                {/* New Listed (Pink/Red) */}
-                <span className="bg-pink-100 text-pink-600 px-2 py-1 rounded-full text-xs font-medium">
-                  New Listed
-                </span>
-              </td>
-              <td className="px-4 py-3">
-                <button className="bg-[#4f80e1] text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
-                  Update
-                </button>
-              </td>
-              <td className="px-4 py-3">
-                <button className="text-red-500 hover:text-red-600 mr-3">
-                  <FaTrash />
-                </button>
-                <button className="text-orange-500 hover:text-orange-600">
-                  <FaEye />
-                </button>
-              </td>
-            </tr>
-
-            {/* Row 4 */}
-            <tr>
-              <td className="px-4 py-3">BSE India</td>
-              <td className="px-4 py-3">₹129 - 136</td>
-              <td className="px-4 py-3">2024-06-03</td>
-              <td className="px-4 py-3">2024-06-05</td>
-              <td className="px-4 py-3">Indus Tower</td>
-              <td className="px-4 py-3">Book Built</td>
-              <td className="px-4 py-3">2024-06-10</td>
-              <td className="px-4 py-3">
-                {/* No status shown in screenshot (or could be 'Closed'?) */}
-              </td>
-              <td className="px-4 py-3">
-                <button className="bg-[#4f80e1] text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
-                  Update
-                </button>
-              </td>
-              <td className="px-4 py-3">
-                <button className="text-red-500 hover:text-red-600 mr-3">
-                  <FaTrash />
-                </button>
-                <button className="text-orange-500 hover:text-orange-600">
-                  <FaEye />
-                </button>
-              </td>
-            </tr>
+            {IpoList && IpoList?.length > 0 ? (
+              IpoList.map((ipo, index) => (
+                <tr key={index} className="border-b border-gray-200">
+                  <td className="px-4 py-3">{ipo.companyName}</td>
+                  <td className="px-4 py-3">{ipo.priceBand}</td>
+                  <td className="px-4 py-3">{ipo.open}</td>
+                  <td className="px-4 py-3">{ipo.close}</td>
+                  <td className="px-4 py-3">{ipo.issueSize}</td>
+                  <td className="px-4 py-3">{ipo.issueType}</td>
+                  <td className="px-4 py-3">{ipo.listingDate}</td>
+                  <td className="px-4 py-3">
+                    <span className={`${getStatusClass(ipo.status)} px-2 py-1 rounded-full text-xs font-medium`}>
+                      {ipo.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <button className="bg-violet-500 text-white px-3 py-1 rounded-md hover:bg-violet-600 transition">
+                      Update
+                    </button>
+                  </td>
+                  <td className="px-4 py-3">
+                    <button className="text-red-500 hover:text-red-600 mr-3">
+                      <FaTrash />
+                    </button>
+                    <button className="text-orange-500 hover:text-orange-600">
+                      <FaEye />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="10" className="px-4 py-3 text-center text-gray-500">
+                  No IPOs found.
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
 
       {/* Pagination */}
       <div className="flex items-center justify-center gap-2 mt-4">
-        {/* Example left arrow (optional) */}
         <button className="px-3 py-1 text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200">
           &lt;
         </button>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   FiMenu,
   FiX,
@@ -14,6 +14,7 @@ import {
   FiCode,         // API Manager
   FiUsers,        // Accounts
   FiHelpCircle,   // Help
+  FiLogOut
 } from "react-icons/fi";
 import { useAuthContext } from "../../context/authContext";
 
@@ -24,8 +25,12 @@ const navLinkClasses = ({ isActive }) =>
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const {userData} = useAuthContext();
-
+  const { userData, Logout } = useAuthContext();
+  const navigate = useNavigate()
+  const performLogOut = ()=>{
+    Logout()
+    navigate('/')
+  }
 
   const handleToggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -89,15 +94,18 @@ const DashboardLayout = () => {
               <FiHelpCircle size={16} />
               <span>Help</span>
             </NavLink>
+            <button onClick={performLogOut} className="py-2 px-3 rounded flex items-center gap-2 text-gray-500 hover:bg-gray-100">
+              <FiLogOut size={20} />
+              Logout
+            </button>
           </div>
         </nav>
       </aside>
 
       {/* Mobile Sidebar (small screens) */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform lg:hidden`}
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } transition-transform lg:hidden`}
       >
         <div className="h-16 flex items-center px-6 border-b border-gray-200 justify-between">
           <span className="text-xl font-bold text-[#6e6dd5]">Bluestock Fintech</span>
@@ -120,7 +128,7 @@ const DashboardLayout = () => {
               <span>Dashboard</span>
             </NavLink>
             <NavLink
-              to="/manage-ipo"
+              to="/dashboard/manage-ipo"
               className={navLinkClasses}
               onClick={handleToggleSidebar}
             >
