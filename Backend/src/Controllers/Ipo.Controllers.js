@@ -1,4 +1,4 @@
-import { IPO } from "../Models/ipoModel.js";
+import { IPO } from "../models/ipoModel.js";
 import { AsyncHandeller } from "../Utils/AsyncHandeller.js";
 import {
   delete_from_Cloudinary,
@@ -9,7 +9,7 @@ import { ApiResponse } from "../Utils/ApiResponse.js";
 // Todo: make the date into utc format to store in db;
 const Register_NewIpo = AsyncHandeller(async (req, res, next) => {
   const ipoObj = req.body;
-
+  
   if (ipoObj) {
     const emptyFields = Object.entries(ipoObj)
       .filter(
@@ -126,9 +126,9 @@ const delete_Ipo = AsyncHandeller(async (req, res, next) => {
     });
   }
 
-  await delete_from_Cloudinary(fetchedIpo.companyLogoURL);
-  await delete_from_Cloudinary(fetchedIpo.rhpPdfUrl);
-  await delete_from_Cloudinary(fetchedIpo.drhpPdfUrl);
+  // await delete_from_Cloudinary(fetchedIpo.companyLogoURL);
+  // await delete_from_Cloudinary(fetchedIpo.rhpPdfUrl);
+  // await delete_from_Cloudinary(fetchedIpo.drhpPdfUrl);
 
   const deletedIpoData = await IPO.findByIdAndDelete({ _id: Id });
 
