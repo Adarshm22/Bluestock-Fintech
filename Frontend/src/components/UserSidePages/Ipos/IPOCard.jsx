@@ -2,7 +2,7 @@ import React from "react";
 
 const IPOCard = ({ ipo }) => {
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 max-w-sm w-full">
+    <div className="bg-white shadow-md rounded-lg p-6 border border-gray-200 max-w-sm w-full grid items-center justify-center">
       {/* Top Section: Logo + Name */}
       <div className="flex items-center justify-between gap-3 mb-4 ">
        <div className="w-24 h-24">
