@@ -182,21 +182,7 @@ const SignUpForm = () => {
         </button>
 
         {/* Divider */}
-        <div className="flex items-center my-4">
-          <hr className="flex-grow border-gray-300" />
-          <span className="mx-2 text-sm text-gray-500">or sign up with</span>
-          <hr className="flex-grow border-gray-300" />
-        </div>
-
-        {/* Google Button */}
-        <button className="w-full bg-gray-100 text-gray-700 rounded-md py-2 text-sm font-medium flex items-center justify-center hover:bg-gray-200">
-          <img
-            src="/google-icon.png"
-            alt="Google"
-            className="h-4 w-4 mr-2"
-          />
-          Continue with Google
-        </button>
+       
 
         {/* Already have an account? */}
         <p className="text-center text-sm text-gray-600 mt-4">

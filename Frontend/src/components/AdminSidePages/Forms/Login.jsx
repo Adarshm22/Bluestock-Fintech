@@ -106,12 +106,8 @@ const LoginForm = () => {
         >
           Login
         </button>
-        <div className="relative text-center mt-6 text-gray-500 text-xs">
-          <span className="bg-white px-2">or sign in with</span>
-        </div>
-        <button className="w-full mt-3 bg-gray-200 py-2 rounded-md flex items-center justify-center text-sm font-semibold">
-          <img src="/google-icon.png" alt="Google" className="w-5 h-5 mr-2" /> Continue with Google
-        </button>
+
+       
         <div className="text-center mt-6">
           <Link to="/signUp" className="text-sm text-blue-600 font-semibold">Create an account</Link>
         </div>
